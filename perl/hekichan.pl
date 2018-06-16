@@ -129,7 +129,7 @@ sub CalPlaPos{
 		}
 		@gpos = &Cnv2Geocentric(@epos, @ppos);
 		$dl  = -0.005693 * &cos4deg($gpos[0] - $epos[0]);
-		$dl -= $C[$i - 3] * &cos4deg($gpos[0] - $ppos[0]) / $ppos[2];
+		$dl -= $C[$pid - 3] * &cos4deg($gpos[0] - $ppos[0]) / $ppos[2];
 		$gpos[0] += $dl;
 	}
 
