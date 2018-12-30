@@ -1,5 +1,5 @@
 #!/usr/my/bin/perl
-#’è”’è‹`^”ŠwŠÖ”ƒXƒNƒŠƒvƒg version 0.021p at 2003/08/30
+#å®šæ•°å®šç¾©ï¼æ•°å­¦é–¢æ•°ã‚¹ã‚¯ãƒªãƒ—ãƒˆ version 0.021p at 2003/08/30
 #(c) 1999-2001 Yoshihiro Sakai & Sakai Institute of Astrology
 
 $PI = 3.141592653589793;
@@ -63,7 +63,7 @@ sub acos4deg{
 
 sub atan4deg{
 	my($y, $xr, $xd) = @_;
-	$xr = atan2($y, 1.0); #‚²‚Ü‚©‚µ‚Ä‚Ü‚·(^^;
+	$xr = atan2($y, 1.0); #ã”ã¾ã‹ã—ã¦ã¾ã™(^^;
 	$xd = $xr / $Deg2Rad;
 	$xd;
 }

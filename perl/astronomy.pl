@@ -1,12 +1,12 @@
 #!/usr/my/bin/perl
-# “V•¶ŒvZŠÖŒWƒXƒNƒŠƒvƒg version 0.18 at 2018/06/16
+# å¤©æ–‡è¨ˆç®—é–¢ä¿‚ã‚¹ã‚¯ãƒªãƒ—ãƒˆ version 0.18 at 2018/06/16
 # (c) 1999-2001, 2004, 2005, 2018 Yoshihiro Sakai & Sakai Institute of Astrology
-# 2017/09/15[0.17j] ƒ¢‚s‚ÌŒvZ®‚ğŒ©’¼‚·‚Â‚¢‚Å‚Éo“T‚ğ‘‚­
-# 2017/10/08[0.18p] ƒPƒvƒ‰[•û’ö®‚Ì’€Ÿ‹ß—–@Œ©’¼‚µ
+# 2017/09/15[0.17j] Î”ï¼´ã®è¨ˆç®—å¼ã‚’è¦‹ç›´ã™ã¤ã„ã§ã«å‡ºå…¸ã‚’æ›¸ã
+# 2017/10/08[0.18p] ã‚±ãƒ—ãƒ©ãƒ¼æ–¹ç¨‹å¼ã®é€æ¬¡è¿‘ä¼¼æ³•è¦‹ç›´ã—
 
 require 'math.pl';
 
-#ƒOƒŒƒSƒŠƒI—ïê—pI
+#ã‚°ãƒ¬ã‚´ãƒªã‚ªæš¦å°‚ç”¨ï¼
 sub CnvCalendar{
 	my($JD) = @_;
 
@@ -38,8 +38,8 @@ sub CnvCalendar{
 	@res;
 }
 
-#‚»‚Ì“ú‚Ìƒ†ƒŠƒEƒX“ú‚ğŒvZ‚·‚é
-sub CalJD{ #À”‘Ìã
+#ãã®æ—¥ã®ãƒ¦ãƒªã‚¦ã‚¹æ—¥ã‚’è¨ˆç®—ã™ã‚‹
+sub CalJD{ #å®Ÿæ•°ä½“ä¸Š
 	my($ye, $mo, $da, $ho, $mi) = @_;
 
 	my($y0) = ($mo > 2) ? $ye : ($ye -  1);
@@ -51,14 +51,14 @@ sub CalJD{ #À”‘Ìã
 	$JD;
 }
 
-sub CnvJDr{ #À”‘Ì¨®”ŠÂ
+sub CnvJDr{ #å®Ÿæ•°ä½“â†’æ•´æ•°ç’°
 	my($JD) = @_;
 	my($ye, $mo, $da, $ho, $mi) = &CnvCalendar($JD);
 	my($JDz) = &CalJDz($ye, $mo, $da);
 	$JDz;
 }
 
-sub CalJDz{ #®”ŠÂã
+sub CalJDz{ #æ•´æ•°ç’°ä¸Š
 	my($year, $month, $day) = @_;
 
 	my($yt) = $year;
@@ -76,7 +76,7 @@ sub CalJDz{ #®”ŠÂã
 	$JD;
 }
 
-#d, T‚ğ”z—ñ‚Å•Ô‚·B
+#d, Tã‚’é…åˆ—ã§è¿”ã™ã€‚
 sub CalTimeCoefficient{
 	my($JD) = @_;
 
@@ -87,7 +87,7 @@ sub CalTimeCoefficient{
 	@Coef;
 }
 
-#‚Ü‚Æ‚ß‚Ä‹O“¹ŒvZB•Ô’l‚Íi‰©ŒoA‰©ˆÜA“®ŒajB
+#ã¾ã¨ã‚ã¦è»Œé“è¨ˆç®—ã€‚è¿”å€¤ã¯ï¼ˆé»„çµŒã€é»„ç·¯ã€å‹•å¾„ï¼‰ã€‚
 sub OrbitWork{
 	my($L, $opi, $omg, $i, $e, $a) = @_;
 
@@ -107,7 +107,7 @@ sub OrbitWork{
 	@res;
 }
 
-#Kepler•û’ö®(M = E - e sinE)‚ğ‰ğ‚­B
+#Kepleræ–¹ç¨‹å¼(M = E - e sinE)ã‚’è§£ãã€‚
 sub SolveKepler{
 	my($M, $e) = @_;
 
@@ -125,7 +125,7 @@ sub SolveKepler{
 	$E;
 }
 
-#“úSˆÊ’u‚©‚ç’nSˆÊ’u‚ÖƒRƒ“ƒo[ƒg‚µA’nS‰©Œo‚ğ•Ô‚·B
+#æ—¥å¿ƒä½ç½®ã‹ã‚‰åœ°å¿ƒä½ç½®ã¸ã‚³ãƒ³ãƒãƒ¼ãƒˆã—ã€åœ°å¿ƒé»„çµŒã‚’è¿”ã™ã€‚
 sub Cnv2Geocentric{
 	my($lp, $bp, $rp, $ls, $bs, $rs) = @_;
 
@@ -148,7 +148,7 @@ sub Cnv2Geocentric{
 	($lg, $bg, $rg);
 }
 
-#‰©“¹À•WŒn‚©‚çÔ“¹À•WŒn‚Ö•ÏŠ·‚·‚éB
+#é»„é“åº§æ¨™ç³»ã‹ã‚‰èµ¤é“åº§æ¨™ç³»ã¸å¤‰æ›ã™ã‚‹ã€‚
 sub Cnv2Equatorial{
 	my($lon, $lat, $obl) = @_;
 	my($xs) = &cos4deg($lon) * &cos4deg($lat);
@@ -166,7 +166,7 @@ sub Cnv2Equatorial{
 	($RA, $Dec);
 }
 
-#Î·•â³
+#æ­³å·®è£œæ­£
 sub CoorCnvfromJ2000{
 	my(@arg) = @_;
 	my($T, $zeta, $zz, $theta);
@@ -197,7 +197,7 @@ sub CoorCnvfromJ2000{
 	($xd, $yd, $zd);
 }
 
-#’n•ûP¯ŒvZ
+#åœ°æ–¹æ’æ˜Ÿæ™‚è¨ˆç®—
 sub CalLST{
 	my($JD, $ho, $mi, $lo) = @_;
 	my($JD0) = int($JD - 0.5) + 0.5;
@@ -205,12 +205,12 @@ sub CalLST{
 	my($UT) = ($JD - $JD0) * 360.0 * 1.002737909350795;
 	$UT += 360.0 if($UT < 0);
 
-	#ƒOƒŠƒjƒbƒWP¯ŒvZ
+	#ã‚°ãƒªãƒ‹ãƒƒã‚¸æ’æ˜Ÿæ™‚è¨ˆç®—
 	my($GST) = 0.279057273 + 100.0021390378 * $T + 1.077591667e-06 * $T * $T;
 	   $GST  = $GST - int($GST);
 	   $GST *= 360.0;
 
-	#’n•ûP¯ŒvZ{Í“®•â³
+	#åœ°æ–¹æ’æ˜Ÿæ™‚è¨ˆç®—ï¼‹ç« å‹•è£œæ­£
 	my($LST) = &mod360($GST + $UT + $lo);
 	my($dpsi) = &CalNutation($JD);
 	my($eps)  = &CalOblique($JD);
@@ -220,7 +220,7 @@ sub CalLST{
 	$LST;
 }
 
-#‰©“¹ŒXÎŠp‚ğŒvZ‚·‚éŠÖ”
+#é»„é“å‚¾æ–œè§’ã‚’è¨ˆç®—ã™ã‚‹é–¢æ•°
 sub CalOblique{
 	my($JD) = @_;
 	my($T) = ($JD - 2451545.0) / 36525.0;
@@ -237,7 +237,7 @@ sub CalOblique{
 	($e + $deps) / 3600.0;
 }
 
-#Í“®‚ğŒvZ‚·‚éŠÖ”iŠÈ—ª”Åj
+#ç« å‹•ã‚’è¨ˆç®—ã™ã‚‹é–¢æ•°ï¼ˆç°¡ç•¥ç‰ˆï¼‰
 sub CalNutation{
 	my($JD) = @_;
 	my($T) = ($JD - 2451545.0) / 36525.0;
@@ -254,7 +254,7 @@ sub CalNutation{
 	$dpsi;
 }
 
-# ‹Ï·‚ğŒvZ‚·‚éŠÖ”
+# å‡æ™‚å·®ã‚’è¨ˆç®—ã™ã‚‹é–¢æ•°
 sub calEqT{
 	my( $JD ) = @_;
 	my( $T ) = ( $JD - 2451545.0 ) / 36525.0;
@@ -283,7 +283,7 @@ sub calEqT{
 }
 
 ##############################
-#ƒJƒŒƒ“ƒ_[ŠÖŒWB
+#ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼é–¢ä¿‚ã€‚
 sub CalDayOfWeek{
 	my($year, $month, $day) = @_;
 
@@ -311,10 +311,10 @@ sub maxday{
 	$md;
 }
 
-# ƒ¢‚s‚ğŠÇ—‚·‚éŠÖ”
+# Î”ï¼´ã‚’ç®¡ç†ã™ã‚‹é–¢æ•°
 # formula A : Notes Scientifiques et Techniques du Bureau des Longitudes, nr. S055
 # from ftp://cyrano-se.obspm.fr/pub/6_documents/4_lunar_tables/newexp.pdf
-# formula B : Polynomial Expressions for Delta T (ƒ¢T)
+# formula B : Polynomial Expressions for Delta T (Î”T)
 # from https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html
 # formula C : Delta T : Polynomial Approximation of Time Period 1620-2013
 # from https://www.hindawi.com/archive/2014/480964/ (license: CC-BY-3.0)
@@ -326,13 +326,13 @@ sub CorrectTDT{
 	if( $year < 948 ){ # formula A.26
 		$t = ( $JD - 2451545.0 ) / 36525.0;
 		$dt = 2177.0 + $t * ( 497.0 + $t * 44.1 );
-	} else if( $year < 1600 ){ # formula A.25
+	} elsif( $year < 1600 ){ # formula A.25
 		$t = ( $JD - 2451545.0 ) / 36525.0;
 		$dt =  102.0 + $t * ( 102.0 + $t * 25.3 );
-	} else if( $year < 1620 ){ # formula B
+	} elsif( $year < 1620 ){ # formula B
 		$t = year - 1600;
 		$dt = 120 + $t * ( -0.9808 + $t * ( -0.01532 + $t / 7129 ) );
-	} else if( $year < 2014 ){ # formula C
+	} elsif( $year < 2014 ){ # formula C
 		# last elements are sentinels.
 		my @tep = [     1620,     1673,     1730,      1798,      1844,     1878,      1905,      1946,      1990,  2014 ];
 		my @tk  = [    3.670,    3.120,    2.495,     1.925,     1.525,    1.220,     0.880,     0.455,     0.115, 0.000 ];
