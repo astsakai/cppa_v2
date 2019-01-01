@@ -310,66 +310,6 @@ sub maxday{
 	$md;
 }
 
-sub ChkValidDate{
-	my($ye, $mo, $da, $ho, $mi) = @_;
-	my($dmax) = &maxday($ye, $mo);
-
-	if(($ye < 0) || ($ye > 4000)){
-		&AstronomicalError(1);
-	} elsif((($ye < 1700) || ($ye >= 2100)) && $usecppa){
-		&AstronomicalError(2);
-	} elsif(($mo < 1) || ($mo > 12) || ($da < 1) || ($da > $dmax)){
-		&AstronomicalError(3);
-	} elsif(($ho < 0) || ($ho > 23) || ($mi < 0) || ($mi >	59)){
-		&AstronomicalError(4);
-	}
-}
-
-sub AstronomicalError{
-	my($errtype) = @_;
-	$\ = ""; #ここで終了させるのでこれでいい。
-
-	my(@errtitle) = ("",
-		"この時代では天体位置の計算精度が保証できません。",
-		"冥王星の位置が計算できません！",
-		"生年月日がグレゴリオ暦法に合いません！！",
-		"出生時刻が２４時表記法に合いません！！");
-	my(@errcom) = ("",
-		"このコンテンツに必要な天体位置計算エンジン「はいぱーへきちゃん」で使用している計算理論の有効期間を越えていますので、この人の分析を行うことは不可能\です。",
-		"「はいぱーへきちゃん」で使用している冥王星の位置計算理論の有効期間を越えています。",
-		"グレゴリオ暦法に準じた生年月日を入力してください。",
-		"２４時表記法に準じた生年月日を入力してください。");
-
-	if($cgi{'style'} eq "html"){
-		print "<h1>$errtitle[$errtype]</h1>\n";
-		print $errcom[$errtype] . "<br>\n";
-		print <<EOF1;
-<hr>
-<address>
-This page and CGI script is produced by Sakai Astrology Institute.<br>
-Copyright (C) 1999- Sakai Astrology Institute<br>
-</address>
-</body>
-</html>
-EOF1
-	} elsif($cgi{'style'} eq "chtml" || $cgi{'style'} eq "skyweb") {
-		print $errtitle[$errtype] . "<br>";
-		print "</body>\n</html>\n";
-	} elsif($cgi{'style'} eq "hdml") {
-		print $errtitle[$errtype] . "<br>";
-		print "</display>\n</hdml>\n";
-	} elsif($cgi{'style'} eq "pdx") {
-		print $errtitle[$errtype] . "\n";
-	}
-	open(ErrLog, ">>./data/error.log");
-	print ErrLog "------ $cgi{'tdate'} $cgi{'ttime'} <astronomical> -----\n";
-	while(($envname, $envvalue) = each %cgi){
-		print ErrLog "$envname = $envvalue\n";
-	}
-	close(ErrLog);
-	exit(1);
-}
-
 # ΔＴを管理する関数
 # formula A : Notes Scientifiques et Techniques du Bureau des Longitudes, nr. S055
 # from ftp://cyrano-se.obspm.fr/pub/6_documents/4_lunar_tables/newexp.pdf
