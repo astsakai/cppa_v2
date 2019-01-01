@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-#ãƒã‚¦ã‚¹ã‚«ã‚¹ãƒ—è¨ˆç®—ãƒ«ãƒ¼ãƒãƒ³
+#ƒnƒEƒXƒJƒXƒvŒvZƒ‹[ƒ`ƒ“
 #(c) 1999-2001, 2004 Yoshihiro Sakai & Sakai Institute of Astrology
 
 #House Cusp Calculating subroutine
@@ -35,7 +35,7 @@ sub CalHouseCusp2{
 #for Koch & Topocentric House System
 sub CalAsc{
 	my($lst, $lat, $obl) = @_;
-	#ASCè¨ˆç®—
+	#ASCŒvZ
 	my($ASCx) = &cos4deg($lst);
 	my($ASCy) = -(&sin4deg($obl) * &tan4deg($lat));
 	$ASCy    -= &cos4deg($obl) * &sin4deg($lst);

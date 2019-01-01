@@ -1,32 +1,29 @@
 #!/usr/local/bin/perl
-# 天体位置計算エンジン「はいぱーへきちゃん」 version 1.00-h16
-# (c) 1999-2003, 2018 Yoshihiro Sakai & Sakai Institute of Astrology
+# �V�̈ʒu�v�Z�G���W���u�͂��ρ[�ւ������v version 1.00-h15
+# (c) 1999-2003 Yoshihiro Sakai & Sakai Institute of Astrology
 # This library uses simplified VSOP87-D, ELP2000-82B, PLUTO-95 developed by
 # Bureau des Longitudes, French. This library valids 1700-2100 Common Era.
-# 2000/03/19[h02] 一応、第１次光行差と章動の補正を入れといた。
-# 2000/07/09[h03] 赤道座標系への変換を容易にするためフルセットで返すようにした。
-# 2000/09/25[h04] ノードとリリスの計算法をとある論文に基づき変更。
-# 2001/03/18[h05] 原則として冥王星はAstronomical Algorithms方式で計算する。
-# 2001/04/23[h06] 天体位置計算の仕掛けをちょこっと変更
-# 2001/07/09[h07] 光行差の計算方式を変更
-# 2001/07/13[h08] 月の計算をパワーアップ！
-# 2002/09/14[h09] 太陽と月の速度の計算式を追加
-# 2003/01/01[h10] なぜか入っていたあほなバグを除去。
-# 2003/01/16[h11] なぜか入っていたあほなバグをさらに除去。
-# 2003/08/29[h12] 黄道傾斜角が間違ってました。
-# 2004/01/09[h13] ルナーリターンを計算する関数を追加。
-# 2004/01/11[h14] ソーラーリターン関数を追加、黄道傾斜角と章動を分離。
-# 2004/01/11[h15] 1700〜2100年以外の冥王星を軌道要素で計算するようにした。
-# 2018/06/16[h16] JavaScript版の知見を逆輸入
+# 2000/03/19[h02]�ꉞ�A��P�����s���Ə͓��̕␳�����Ƃ����B
+# 2000/07/09[h03]�ԓ����W�n�ւ̕ϊ���e�Ղɂ��邽�߃t���Z�b�g�ŕԂ��悤�ɂ����B
+# 2000/09/25[h04]�m�[�h�ƃ����X�̌v�Z�@���Ƃ���_���Ɋ�Â��ύX�B
+# 2001/03/18[h05]�����Ƃ��Ė�������Astronomical Algorithms�����Ōv�Z����B
+# 2001/04/23[h06]�V�̈ʒu�v�Z�̎d�|�������傱���ƕύX
+# 2001/07/09[h07]���s���̌v�Z������ύX
+# 2001/07/13[h08]���̌v�Z���p���[�A�b�v�I
+# 2002/09/14[h09]���z�ƌ��̑��x�̌v�Z����ǉ�
+# 2003/01/01[h10]�Ȃ��������Ă������قȃo�O�������B
+# 2003/01/16[h11]�Ȃ��������Ă������قȃo�O������ɏ����B
+# 2003/08/29[h12]�����X�Ίp���Ԉ���Ă܂����B
+# 2004/01/09[h13]���i�[���^�[�����v�Z����֐���ǉ��B
+# 2004/01/11[h14]�\�[���[���^�[���֐���ǉ��A�����X�Ίp�Ə͓��𕪗��B
+# 2004/01/11[h15]1700�`2100�N�ȊO�̖��������O���v�f�Ōv�Z����悤�ɂ����B
+# 2018/06/16[h16] JavaScript�ł̒m�����t�A��
 require 'metako.pl';
 require 'cuspcal.pl';
 require 'astronomy.pl';
 require 'geodata.pl';
 
-# 冥王星の1700〜2100年以外の期間の軌道要素選択フラグ
-my $jplMode = 1;
-
-#天体位置を配列で返す統括関数
+#�V�̈ʒu��z��ŕԂ������֐�
 sub CalPlanetPosition{
 	my($ye, $mo, $da, $ho, $mi, $pid) = @_;
 	my($lo, $la) = &FindPlaceCoor($pid);
@@ -77,19 +74,19 @@ sub CalPlanetPosition2{
 	@plapos;
 }
 
-#各天体の黄経計算／JDは地球力学時基準
+#�e�V�̂̉��o�v�Z�^JD�͒n���͊w���
 sub CalPlaPos{
 	my($JD, $pid) = @_;
 	my($T)  = ($JD - 2451545.0) /  36525.0;
 	my($T2) = ($JD - 2451545.0) / 365250.0;
-#光行差定数
+#���s���萔
 	my(@C)  = (0.00347, 0.00484, 0.00700, 0.01298, 0.01756, 0.02490, 0.03121, 0.03461);
 	my($dl, @epos, @gpos, @ppos);
 
 	@epos = &CalPositSO($T2);
-	if($pid == 1){ #計算目標が太陽の場合
+	if($pid == 1){ #�v�Z�ڕW�����z�̏ꍇ
 		$gpos[0] = $epos[0] - 0.005693 / $epos[2];
-	} elsif($pid == 2){ #計算目標が月の場合
+	} elsif($pid == 2){ #�v�Z�ڕW�����̏ꍇ
 		@gpos = &CalPositMO($T);
 	} else {
 		@ppos = &CalPositME($T2) if($pid == 3);
@@ -105,27 +102,15 @@ sub CalPlaPos{
 			}elsif(-3.00 <= $T){ #Pluto_bdl valids thru 1700-2100
 				require 'pluto.pl';
 				@ppos = &CalPositPL_bdl($JD);
-			} else { #それ以外は軌道要素で略算。
-				my( $L, $p, $O, $a, $e, $i );
-				if( $jplMode ){
-					# 軌道要素：https://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
-					$L = 238.96535011 + 145.18042903 * $T - 0.01262724 * $T * $T;
-					$p = 224.09702598 -   0.00968827 * $T;
-					$O = 110.30167986 -   0.00809981 * $T;
-					$a =  39.48686035 +   0.00449751 * $T;
-					$e =   0.24885238 +   0.00006016 * $T;
-					$i =  17.14104260 -   0.00000501 * $T;
-				} else {
-					$L = 238.467028 + 146.6828495 * $T - 0.0090561 * $T * $T;
-					$p = 224.141630 +   1.3900789 * $T + 0.0003019 * $T * $T;
-					$O = 110.318223 +   1.3506963 * $T + 0.0004014 * $T * $T;
-					$a = 39.5403429 + 0.00313105 * $T - 0.00003792 * $T * $T;
-					$e = 0.24900535 + 0.00003885 * $T - 0.000000562 * $T * $T;
-					$i = 17.145104 - 0.0054981 * $T - 0.0000384 * $T * $T;
-				}
+			} else { #����ȊO�͋O���v�f�ŗ��Z�B
+				my($L) = 238.467028 + 146.6828495 * $T - 0.0090561 * $T * $T;
+				my($p) = 224.141630 +   1.3900789 * $T + 0.0003019 * $T * $T;
+				my($O) = 110.318223 +   1.3506963 * $T + 0.0004014 * $T * $T;
+				my($a) = 39.5403429 + 0.00313105 * $T - 0.00003792 * $T * $T;
+				my($e) = 0.24900535 + 0.00003885 * $T - 0.000000562 * $T * $T;
+				my($i) = 17.145104 - 0.0054981 * $T - 0.0000384 * $T * $T;
 				@ppos = &OrbitWork($L, $p, $O, $i, $e, $a);
 			}
-			$ppos[ 0 ] += 5029.0966 / 3600.0 * $T;  # 線型近似の歳差補正する
 		}
 		@gpos = &Cnv2Geocentric(@epos, @ppos);
 		$dl  = -0.005693 * &cos4deg($gpos[0] - $epos[0]);
@@ -137,7 +122,7 @@ sub CalPlaPos{
 	$lon;
 }
 
-#各要素の計算
+#�e�v�f�̌v�Z
 sub CalVsopTerm{
 	my(@term) = @_;
 
@@ -722,6 +707,7 @@ sub CalPositPL_mee{
 	$lo +=   0.0204 * &sin4deg($Sa - $Pl) -  0.0100 * &cos4deg($Sa - $Pl);
 	$lo +=  -0.0041 * &sin4deg($Sa * 1.0) -  0.0051 * &cos4deg($Sa * 1.0);
 	$lo +=  -0.0060 * &sin4deg($Sa + $Pl) -  0.0033 * &cos4deg($Sa + $Pl);
+	$lo += 5029.0966 / 3600.0 * $T; #�蔲���΍��␳
 
 #Pluto's Latitude
 	$bo +=  -5.4529 * &sin4deg($Pl * 1.0) - 14.9749 * &cos4deg($Pl * 1.0);
@@ -747,7 +733,7 @@ sub CalPositPL_mee{
 	($lo, $bo, $ro);
 }
 
-#太陽と月の速度
+#���z�ƌ��̑��x
 sub CalSolarVelocity{
 	my($JD) = @_;
 
@@ -814,7 +800,7 @@ sub CalLunarVelocity{
 	$vel;
 }
 
-#ノード、リリス
+#�m�[�h�A�����X
 #This function from "Numerical expressions for precession formulae
 #and mean elements for the Moon and the planets" J. L. Simon, et al.,
 #Astron. Astrophys., 282, 663-683(1994).
@@ -832,7 +818,7 @@ sub CalPositLuna{
 	$l   = &mod360(134.9634114 + 13.06499295 * $d + 0.0089970278 * $T * $T);
 	$l1  = &mod360(357.5291092 +  0.98560028 * $d - 0.0001536667 * $T * $T);
 
-#ノード補正
+#�m�[�h�␳
 	$DH  = $omg;
 	$DH -= 1.4978 * &sin4deg(2.0 * ($D - $F));
 	$DH -= 0.1500 * &sin4deg($l1);
@@ -841,7 +827,7 @@ sub CalPositLuna{
 	$DH -= 0.0800 * &sin4deg(2.0 * ($l - $F));
 	$DH  = &mod360($DH);
 
-#リリス補正
+#�����X�␳
 	$LT  = $opi + 180.0;
 	$LT -= 15.4469 * &sin4deg(2.0 * $D - $l);
 	$LT -=  9.6419 * &sin4deg(2.0 * ($D - $l));
@@ -863,17 +849,17 @@ sub CalPositLuna{
 	@luna;
 }
 
-#ASC・MC計算
+#ASC�EMC�v�Z
 sub CalGeoPoint{
 	my($lst, $la, $obl) = @_;
 
-	#MC計算
+	#MC�v�Z
 	my($MCx) = &sin4deg($lst);
 	my($MCy) = &cos4deg($lst) * &cos4deg($obl);
 	my($MC)  = &mod360(atan2($MCx, $MCy) / $Deg2Rad);
 	$MC += 360.0 if($MC < 0.0);
 
-	#ASC計算
+	#ASC�v�Z
 	my($ASCx) = &cos4deg($lst);
 	my($ASCy) = -(&sin4deg($obl) * &tan4deg($la));
 	$ASCy    -= &cos4deg($obl) * &sin4deg($lst);
@@ -884,7 +870,7 @@ sub CalGeoPoint{
 	@res;
 }
 
-##### Return 計算関数
+##### Return �v�Z�֐�
 # Solar Return
 sub CalAfterSolarReturn{
 	my($nSu, $date0) = @_;

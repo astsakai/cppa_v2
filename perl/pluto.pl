@@ -1,12 +1,11 @@
 #!/usr/local/bin/perl
-#å¤©ä½“ä½ç½®è¨ˆç®—ã‚¨ãƒ³ã‚¸ãƒ³ã€Œã¯ã„ã±ãƒ¼ã¸ãã¡ã‚ƒã‚“ã€å†¥ç‹æ˜Ÿè¨ˆç®—ãƒ«ãƒ¼ãƒãƒ³
+#“V‘ÌˆÊ’uŒvZƒGƒ“ƒWƒ“u‚Í‚¢‚Ï[‚Ö‚«‚¿‚á‚ñv–»‰¤¯ŒvZƒ‹[ƒ`ƒ“
 #(c) 1999-2001 Yoshihiro Sakai & Sakai Institute of Astrology
 #This library uses simplified VSOP87-D, ELP2000-82B, PLUTO-95 developed by
 #Bureau des Longitudes, French. This library valids 1700-2100 Common Era.
 
 require 'astronomy.pl';
 require 'math.pl';
-# $[ = 0;
 
 sub CalPositPL_bdl{
 	my($JD) = @_;
@@ -23,7 +22,7 @@ sub CalPositPL_bdl{
 	my(@E)  = ();
 	my(@nf) = (82, 19, 5);
 
-#secular terms --- å¤šé …å¼é …
+#secular terms --- ‘½€®€
 	@ax = ( 98083308510.0, -1465718392.0, 11528487809.0,  55397965917.0);
 	@ay = (101846243715.0,       57789.0, -5487929294.0,   8520205290.0);
 	@az = (  2183700004.0,   433209785.0, -4911803413.0, -14029741184.0);
@@ -241,7 +240,7 @@ sub CalPositPL_bdl{
                 33.0,-11127973411.0,  -1310869292.0,     -164753.0,
               -107.0,         284.0);
 
-#é …ã®è¨ˆç®—
+#€‚ÌŒvZ
 #secular terms
 	for($i = 3;$i >= 0;$i--){
 		$v[1] = $v[1] * $x + $ax[$i];
@@ -279,7 +278,7 @@ sub CalPositPL_bdl{
 		$v[$i] /= 1.0e10;
 	}
 
-#åº§æ¨™å¤‰æ›
+#À•W•ÏŠ·
 	my($obl) = 23.439291 - 0.0130125 * $T;
 
 	$E[1] = 1.0 * $v[1];
